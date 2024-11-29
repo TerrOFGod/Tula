@@ -56,7 +56,7 @@ export const StyledNode = ({ struct, label, name }: ITestNodeProps) => {
   const [value, setValue] = useState(name);
   const onChange = (event: any) => {
     setValue(event.target.value);
-    setNodeName(nodeId, event.target.value);
+    setNodeName(nodeId!, event.target.value);
   };
   return (
     <div>

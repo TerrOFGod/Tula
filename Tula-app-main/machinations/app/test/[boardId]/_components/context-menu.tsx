@@ -3,6 +3,14 @@ import { Node, useReactFlow } from "reactflow";
 import "./../style-test.css"
 import { useChangeEdgeType } from "@/app/store/use-custom-edge";
 
+interface ContextMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+  id: string;
+  top?: any | boolean; // Выбор между числом и строкой для стилей
+  left?: any | boolean;
+  right?: any | boolean; // Необязательные свойства
+  bottom?: any | boolean;
+}
+
 export default function ContextMenu({
   id,
   top,
@@ -10,7 +18,7 @@ export default function ContextMenu({
   right,
   bottom,
   ...props
-}) {
+}: ContextMenuProps): React.JSX.Element {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
   const {setAnalytics} = useChangeEdgeType()
   const duplicateNode = useCallback(() => {

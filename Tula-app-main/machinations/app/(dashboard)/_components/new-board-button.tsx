@@ -1,5 +1,5 @@
 "use client";
-import { v4 as uuidv4 } from 'uuid';
+
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -15,19 +15,27 @@ interface NewBoardButtonProps {
 
 export const NewBoardButton = ({ orgId, disabled }: NewBoardButtonProps) => {
   const router = useRouter();
+  const { mutate, pending } = useApiMutation(api.board.create);
 
   const onClick = () => {
-    toast.success("Board created");
-    router.push(`/test/${uuidv4()}`);
+    mutate({
+      orgId,
+      title: "Untitled",
+    })
+      .then((id) => {
+        toast.success("Board created");
+        router.push(`/board/${id}`);
+      })
+      .catch(() => toast.error("Failed to create board"));
   };
 
   return (
     <button
-      disabled={false}
+      disabled={pending || disabled}
       onClick={onClick}
       className={cn(
         "col-span-1 aspect-[100/130] bg-blue-600 rounded-lg hover:bg-blue-800 flex flex-col items-center justify-center py-6",
-        (false) &&
+        (pending || disabled) &&
           "opacity-75 hover:bg-blue-600 cursor-not-allowed"
       )}
     >

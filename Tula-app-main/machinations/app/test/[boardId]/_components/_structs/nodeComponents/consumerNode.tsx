@@ -26,35 +26,37 @@ const ConsumerNode = ({ data: { label, struct, name }, selected }: DataProps) =>
   const { isPlay, onStop, onReset, time } = useAnimateScheme();
   const { setNodeLabel, getEdgeValues } = useStore();
   const nodeId = useNodeId();
-  const edges = useEdges();
-  const nodes = useNodes();
+  const edges = useEdges<any>();
+  const nodes = useNodes<any>();
 
   useEffect(() => {
     let intervalId = null;
+    if (nodeId === null)
+      return;
     if (!isPlay) {
-      setNodeLabel(nodeId, "not");
+      setNodeLabel(nodeId, 0);
     } else {
-      setNodeLabel(nodeId, "worked");
-      let sourceEdge: Edge = edges.find((edge) => edge?.target === nodeId);
+      setNodeLabel(nodeId, 1);
+      let sourceEdge: Edge<Number> = edges.find((edge) => edge?.target === nodeId)!;
       // тут в sourceEdge.data хранится значение количество ресурсов
-      let targetEdge: Edge = edges.find((edge) => edge?.source === nodeId);
+      let targetEdge: Edge<Number> = edges.find((edge) => edge?.source === nodeId)!;
 
       // тут в targetEdge.data хранится значение количества млсекунд * 1000 - то что задержка
 
-      let targetNodeId: Node = nodes.find(
+      let targetNodeId: Node<any> = nodes.find(
         (node) => node.id === targetEdge?.target
-      );
-      let initialData = +sourceEdge?.data || 0;
+      )!;
+      let initialData = +sourceEdge?.data! || 0;
 
       intervalId = setInterval(() => {
         // Увеличиваем значение sourceEdge.data каждую секунду на 1
-        initialData += +sourceEdge?.data;
+        initialData += +sourceEdge?.data!;
 
         // Обновляем метку узла с новым значением sourceEdge.data
         setNodeLabel(targetNodeId?.id, +initialData);
       }, time * 1000); // Интервал в миллисекундах (1000 миллисекунд = 1 секунда)
     }
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId!);
   }, [isPlay, onStop, onReset]);
 
   return (

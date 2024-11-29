@@ -29,7 +29,7 @@ const SourceNode = ({ data: { label, struct, name }, selected }: DataProps) => {
   const nodes = useNodes();
 
   useEffect(() => {
-    let intervalIds = [];
+    let intervalIds: any[] = [];
     if (isPlay)  {
       let targetEdges: Edge[] = edges.filter((edge) => edge?.source === nodeId);
 
@@ -40,7 +40,7 @@ const SourceNode = ({ data: { label, struct, name }, selected }: DataProps) => {
   
         const intervalId = setInterval(() => {
           initialData += +edge.data;
-          setNodeLabel(targetNodeId?.id, +initialData);
+          setNodeLabel(targetNodeId?.id!, +initialData);
         }, time * 1000);
         intervalIds.push(intervalId);
       });

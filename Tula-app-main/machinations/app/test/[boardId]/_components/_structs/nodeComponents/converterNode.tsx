@@ -22,8 +22,8 @@ const ConverterNode = ({
   const { isPlay, onStop, onReset, time } = useAnimateScheme();
   const { setNodeLabel, getEdgeValues } = useStore();
   const nodeId = useNodeId();
-  const edges = useEdges();
-  const nodes = useNodes();
+  const edges = useEdges<any>();
+  const nodes = useNodes<any>();
 
   useEffect(() => {
     let intervalId = null;
@@ -38,8 +38,8 @@ const ConverterNode = ({
             let foundNode = nodes.find(node => node.id === nodeId);
             let edge = edges.find(edge => edge.source === foundNode?.id)
             if (foundNode) {
-                if (+foundNode.data?.label > edge.data) {
-                    setNodeLabel(foundNode.id, foundNode.data?.label - edge.data);
+                if (+foundNode.data?.label > edge?.data) {
+                    setNodeLabel(foundNode.id, foundNode.data?.label - edge?.data);
                 }
             }
         });
@@ -51,11 +51,11 @@ const ConverterNode = ({
       intervalId = setInterval(() => {
 
 
-        setNodeLabel(nodeId, (parseInt(label) + sumOfData).toString());
+        setNodeLabel(nodeId!, (parseInt(label) + sumOfData));
       }, time * 1000);
     }
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId!);
 
   }, [isPlay, onStop, onReset, label]);
 

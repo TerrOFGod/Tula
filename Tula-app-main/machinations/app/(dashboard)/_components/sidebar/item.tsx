@@ -12,7 +12,16 @@ interface ItemProps {
 }
 
 export const Item = ({ id, name, imageUrl }: ItemProps) => {
+  const { organization } = useOrganization();
+  const { setActive } = useOrganizationList();
 
+  const isActive = organization?.id === id;
+
+  const onClick = () => {
+    if (!setActive) return;
+
+    setActive({ organization: id });
+  };
 
   return (
     <div className="aspect-square relative">
@@ -24,7 +33,7 @@ export const Item = ({ id, name, imageUrl }: ItemProps) => {
           onClick={() => {}}
           className={cn(
             "rounded-md cursor-pointer opacity-75 hover:opacity-100 transition",
-             "opacity-100"
+            isActive && "opacity-100"
           )}
         />
       </Hint>

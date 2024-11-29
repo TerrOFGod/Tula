@@ -27,8 +27,8 @@ const PoolNode = ({ data: { label, struct, name }, selected, id }: DataProps) =>
   const { isPlay, onStop, onReset, time, gamesCount, resetNodes } = useAnimateScheme();
   const { setNodeLabel, getEdgeValues } = useStore();
   const nodeId = useNodeId();
-  const edges = useEdges();
-  const nodes = useNodes();
+  const edges = useEdges<any>();
+  const nodes = useNodes<any>();
   useEffect(() => {
     let intervalId = null;
     if (isPlay) {
@@ -39,10 +39,10 @@ const PoolNode = ({ data: { label, struct, name }, selected, id }: DataProps) =>
       intervalId = setInterval(() => {
 
 
-        setNodeLabel(nodeId, (parseInt(label) + sumOfData).toString());
+        setNodeLabel(nodeId!, (parseInt(label) + sumOfData));
       }, time * 1000);
     }
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId!);
   }, [isPlay, onStop, onReset, label, gamesCount]);
 
   return (

@@ -27,6 +27,24 @@ const TabSeparator = () => {
 };
 
 export const InfoBoard = ({ boardId }: InfoProps) => {
-  return <div>No info</div>;
+  const { onOpen } = useRenameModal();
 
+  const data = useQuery(api.board.get, {
+    id: boardId as Id<"boards">,
+  });
+
+  if (!data) return <div>No info</div>;
+
+  return (
+    <div>
+      <Hint label="Edit title" side="bottom" sideOffset={10}>
+        <Button
+          className={styles.hint_btn}
+          onClick={() => onOpen(data._id, data.title)}
+        >
+          <h2>{data.title}</h2>
+        </Button>
+      </Hint>
+    </div>
+  );
 };

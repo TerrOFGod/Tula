@@ -26,7 +26,7 @@ import { DataParserController } from './data-parser/data-parser.controller';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Vselord2002',
+      password: 'Le26ra1703.',
       database: 'tula',
       entities: [UserEntity, BoardEntity, PoolEntity, TeamEntity, GameSessionEntity, GameSimulationEntity],
       synchronize: true,

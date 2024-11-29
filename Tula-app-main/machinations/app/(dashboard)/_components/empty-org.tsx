@@ -17,7 +17,7 @@ export const EmptyOrganization = () => {
             <Button size="lg">Create organization</Button>
           </DialogTrigger>
           <DialogContent className="p-0 bg-transparent border-none max-w-[480px]">
-            
+            <CreateOrganization />
           </DialogContent>
         </Dialog>
       </div>

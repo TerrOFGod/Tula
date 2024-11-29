@@ -26,8 +26,8 @@ const RandomNode = ({ data: { label, struct, name }, selected }: DataProps) => {
   const { isPlay, onStop, onReset, time } = useAnimateScheme();
   const { setNodeLabel, getEdgeValues } = useStore();
   const nodeId = useNodeId();
-  const edges = useEdges();
-  const nodes = useNodes();
+  const edges = useEdges<any>();
+  const nodes = useNodes<any>();
 
 
 
@@ -45,7 +45,7 @@ const RandomNode = ({ data: { label, struct, name }, selected }: DataProps) => {
 
     
     }
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId!);
   }, [isPlay, onStop, onReset, label]);
 
   return (

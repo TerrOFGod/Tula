@@ -5,6 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import Link from "next/link";
 import Image from "next/image";
+import { useAuth } from "@clerk/nextjs";
 import { MoreHorizontal } from "lucide-react";
 import { Footer } from "./footer";
 import { Actions } from "@/components/actions";
@@ -32,11 +33,27 @@ export const BoardCard = ({
   orgId,
   isFavorite,
 }: BoardCardProps) => {
+  const { userId } = useAuth();
 
-  const authorLabel = "You";
+  const authorLabel = userId === authorId ? "You" : authorName;
   const createdAtLabel = formatDistanceToNow(createdAt, {
     addSuffix: true,
   });
+
+  const { mutate: onFavorite, pending: pendingFavorite } = useApiMutation(
+    api.board.favorite
+  );
+  const { mutate: onUnfavorite, pending: pendingUnfavorite } = useApiMutation(
+    api.board.unfavorite
+  );
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      onUnfavorite({ id }).catch(() => toast.error("Failed to unfavorite"));
+    } else {
+      onFavorite({ id, orgId }).catch(() => toast.error("Failed to favorite"));
+    }
+  };
 
   return (
     <Link href={`/test/${id}`}>
@@ -49,6 +66,14 @@ export const BoardCard = ({
             </button>
           </Actions>
         </div>
+        <Footer
+          isFavorite={isFavorite}
+          title={title}
+          authorLabel={authorLabel}
+          createdAtLabel={createdAtLabel}
+          onClick={toggleFavorite}
+          disabled={pendingFavorite || pendingUnfavorite}
+        />
       </div>
     </Link>
   );

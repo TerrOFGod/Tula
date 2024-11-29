@@ -2,7 +2,6 @@
 import { useAnimateScheme } from "@/app/store/use-animate-scheme";
 import { memo, useEffect } from "react";
 import {
-  Edge,
   NodeResizer,
   useEdges,
   useNodeId,
@@ -24,7 +23,7 @@ const CustomNode = ({ data: { label, struct, name }, selected }: DataProps) => {
   const { isPlay, time, onReset, isReset } = useAnimateScheme();
   const { setNodeLabel, getEdgeValues } = useStore();
   const nodeId = useNodeId();
-  const edges = useEdges<Number>();
+  const edges = useEdges<any>();
 
   useEffect(() => {
     let newEdges = edges.filter((edge) => edge.target === nodeId);
